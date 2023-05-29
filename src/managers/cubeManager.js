@@ -10,16 +10,31 @@ const cubes = [
   },
   {
     id: '2l22hw34li8pb2gc',
-    name: 'Mirror Cube',
+    name: 'Rubik Classic',
     description: 'Cool one',
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2JBLI6ha2kI2bepVACnPHX3luHi1kCEs4qA&usqp=CAU',
-    difficultyLevel: '4',
+    difficultyLevel: '2',
   },
 ];
 
 // Get All cubes
-exports.getAll = () => cubes.slice();
+exports.getAll = (search, from, to) => {
+  let result = cubes.slice();
+
+  if (search) {
+    result = result.filter((cube) =>
+      cube.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+  if (from) {
+    result = result.filter((cube) => cube.difficultyLevel >= Number(from));
+  }
+  if (to) {
+    result = result.filter((cube) => cube.difficultyLevel <= Number(to));
+  }
+  return result;
+};
 // Get Cube by id
 exports.getOne = (cubesId) => cubes.find((x) => x.id == cubesId);
 
