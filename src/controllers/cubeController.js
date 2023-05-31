@@ -3,15 +3,16 @@ const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 
 //Path /cubes/create
-router.get('/create', (req, res) => {
+router.get('/create',  (req, res) => {
   console.log(cubeManager.getAll());
   res.render('create');
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
+  // Getting the data from the form
   const { name, description, imageUrl, difficultyLevel } = req.body;
-
-  cubeManager.create({
+  // Giving the data to create function which is saving it to the DB
+  await cubeManager.create({
     name,
     description,
     imageUrl,
@@ -21,8 +22,8 @@ router.post('/create', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/:cubeId/details', (req, res) => {
-  const cube = cubeManager.getOne(req.params.cubeId);
+router.get('/:cubeId/details', async (req, res) => {
+  const cube = await cubeManager.getOne(req.params.cubeId);
 
   if (!cube) return res.redirect('/404');
 
