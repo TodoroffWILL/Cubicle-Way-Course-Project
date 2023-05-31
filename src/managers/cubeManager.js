@@ -19,8 +19,10 @@ exports.getAll = async (search, from, to) => {
   return result;
 };
 // Get Cube by id
-exports.getOne = (cubeId) => Cube.findById(cubeId).lean(); // От документ който връща монгоосе го прави на обект/auery
+exports.getOne = (cubeId) =>
+  Cube.findById(cubeId).populate('accessories').lean(); // От документ който връща монгоосе го прави на обект/auery
 
+  
 exports.create = async (cubeData) => {
   const newCube = await Cube.create(cubeData);
 
