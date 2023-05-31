@@ -1,11 +1,8 @@
 const Cube = require('../models/Cube');
 
-
-
 // Get All cubes
 exports.getAll = async (search, from, to) => {
   let result = await Cube.find().lean();
-  
 
   // TODO: use mongoose to filter in the db
   if (search) {
@@ -28,4 +25,10 @@ exports.create = async (cubeData) => {
   const newCube = await Cube.create(cubeData);
 
   return newCube;
+};
+
+exports.attachAccessory = async (cubeId, accessoryId) => {
+  return Cube.findByIdAndUpdate(cubeId, {
+    $push: { accessories: accessoryId },
+  });
 };
