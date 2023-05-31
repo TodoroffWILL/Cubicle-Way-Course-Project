@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 router.get('/about', (req, res) => {
   res.status(404).render('about');
 });
-router.get('/404', (req, res) => {
+router.get('/404', (req, res) => { 
   res.render('404');
 });
 
