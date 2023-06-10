@@ -1,22 +1,32 @@
 const jwt = require('../lib/jwt');
-const { SECRET } = require('../config/secretForJWT');
+const { SECRET } = require('../config/config');
 
-exports.authentication = async (req, res, next) => {
-  const token = req.cookies['auth'];
+exports.auth = async (req, res, next) => {
+    const token = req.cookies['auth'];
+    
+    if (token) {
+        try {
+            const decodedToken = await jwt.verify(token, SECRET);
 
-  if (token) {
-    // validate token
-    try {
-      const decodedToken = await jwt.verify(token, SECRET);
+            req.user = decodedToken;
+            res.locals.user = decodedToken;
+            res.locals.isAuthenticated = true;
 
-      req.user = decodedToken;
+            next();
+        } catch(err) {
+            res.clearCookie('auth');
 
-      next();
-    } catch (err) {
-      res.clearCookie('auth');
-      res.redirect('/users/login');
+            res.redirect('/users/login');
+        }
+    } else {
+        next();
     }
-  } else {
+};
+
+exports.isAuth = (req, res, next) => {
+    if (!req.user) {
+        return res.redirect('/users/login');
+    }
+
     next();
-  }
 };

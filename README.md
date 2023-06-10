@@ -1,1 +1,2 @@
-# Cubicle-Way-Course-Project
+# softuni-cubicle-may-2023
+Softuni Course Project Workshop
