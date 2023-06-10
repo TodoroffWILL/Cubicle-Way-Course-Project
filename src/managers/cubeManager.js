@@ -22,12 +22,14 @@ exports.getAll = async (search, from, to) => {
 exports.getOne = (cubeId) =>
   Cube.findById(cubeId).populate('accessories').lean(); // От документ който връща монгоосе го прави на обект/auery
 
-  
 exports.create = async (cubeData) => {
   const newCube = await Cube.create(cubeData);
-
   return newCube;
 };
+
+exports.update = (cubeId, cubeData) => Cube.findByIdAndUpdate(cubeId, cubeData);
+
+exports.delete = (cubeId) => Cube.findByIdAndDelete(cubeId);
 
 exports.attachAccessory = async (cubeId, accessoryId) => {
   return Cube.findByIdAndUpdate(cubeId, {
