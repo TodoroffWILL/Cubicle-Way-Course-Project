@@ -22,10 +22,10 @@ router
   .post(async (req, res) => {
     const { username, password } = req.body;
 
-    const user = await userManager.login(username, password);
-    console.log(user);
+    const token = await userManager.login(username, password);
+    console.log(token);
 
-    res.cookie('username', user.username);
+    res.cookie('auth', token, { httpOnly: true });
     res.redirect('/');
   });
 
